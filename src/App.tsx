@@ -1,9 +1,19 @@
-import React from 'react';
-import { Brain, MapPin, BarChart3, Users, Stethoscope, ArrowRight, CheckCircle2, ShieldCheck, TrendingUp } from 'lucide-react';
+import React, { useState } from 'react';
+import { Brain, MapPin, BarChart3, Users, Stethoscope, ArrowRight, CheckCircle2, ShieldCheck, TrendingUp, Menu, X } from 'lucide-react';
 
 function App() {
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
   const handleMedifolioClick = () => {
     window.open('http://localhost:3010', '_blank');
+  };
+
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setIsMobileMenuOpen(false);
   };
 
   return (
@@ -15,15 +25,35 @@ function App() {
             <img src="/logo.png" alt="Medical Thinking Logo" />
             <span>Medical Thinking</span>
           </div>
-          <nav className="nav-links">
+
+          {/* Desktop Nav */}
+          <nav className="nav-links desktop-nav">
             <a href="#home">Home</a>
             <a href="#about">About</a>
             <a href="#service">Service</a>
             <a href="#contact">Contact</a>
           </nav>
-          <button className="btn-primary" onClick={handleMedifolioClick}>
+          <button className="btn-primary desktop-nav" onClick={handleMedifolioClick}>
             Medifolio 시작하기
           </button>
+
+          {/* Mobile Menu Button */}
+          <button className="mobile-menu-btn" onClick={toggleMobileMenu}>
+            {isMobileMenuOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
+        </div>
+
+        {/* Mobile Nav Overlay */}
+        <div className={`mobile-nav ${isMobileMenuOpen ? 'open' : ''}`}>
+          <nav className="mobile-nav-links">
+            <a href="#home" onClick={closeMobileMenu}>Home</a>
+            <a href="#about" onClick={closeMobileMenu}>About</a>
+            <a href="#service" onClick={closeMobileMenu}>Service</a>
+            <a href="#contact" onClick={closeMobileMenu}>Contact</a>
+            <button className="btn-primary" onClick={() => { handleMedifolioClick(); closeMobileMenu(); }}>
+              Medifolio 시작하기
+            </button>
+          </nav>
         </div>
       </header>
 
